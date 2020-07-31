@@ -93,6 +93,7 @@ class Highlight_finder:
                         break
                     result = self.match_template(self.source.make_grayscale(), self.highlight.make_grayscale())
                     if result > 0.95: # 일치한다면
+                        end = self.frame_cnt
                         continue
                     else: # 일치하지 않는다면
                         print(self.frame_cnt, result, self.highlight_frame_cnt)
@@ -109,7 +110,9 @@ class Highlight_finder:
         if self.highlight.cap.isOpened():
             self.highlight.cap.release()
             
-        f.write(str(start) + "," + str(end))
+        start_time = str(start // 30 // 3600) + ":" + str(start//30%3600//60) + ":" + str(start//30%60)
+        end_time = str(end // 30 // 3600) + ":" + str(end//30%3600//60) + ":" + str(end//30%60)
+        f.write(str(start) + "," + str(end)+", " + start_time + "," + end_time+"\n")
         f.close()
         #cv2.destroyAllWindows()
         print("END")
