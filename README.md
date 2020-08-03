@@ -5,6 +5,10 @@ opencv 기반 하이라이트 영상 레이블링 자동화 도구
 ```
 $ pip install opencv-python
 ```
+or
+```
+$ conda install -c menpo opencv
+```
 ## Usage
 ```
 $ python Highlight_finder.py file_name.txt (precision)
