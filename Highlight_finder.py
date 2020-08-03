@@ -19,12 +19,13 @@ class Video_capture:
         return
 
 class Highlight_finder:
-    def __init__(self, source, highlight):
+    def __init__(self, source, highlight, precision):
         self.name = source[:-4]
         self.source = Video_capture(source)
         self.highlight= Video_capture(highlight)
         self.frame_cnt = 0
         self.highlight_frame_cnt = 210 # 네이버 로고 지난 프레임
+        self.precision = precision
         self.result = []
     
     def load_video(self):
@@ -64,7 +65,7 @@ class Highlight_finder:
                 cv2.destroyAllWindows()
                 break
 
-            if maxVal < 0.95: # 영상이 일치하는지 체크
+            if maxVal < self.precision: # 영상이 일치하는지 체크
                 continue
             else: # 일치한다면
                 result = maxVal
@@ -92,7 +93,7 @@ class Highlight_finder:
                     if not self.source.ret or not self.highlight.ret: 
                         break
                     result = self.match_template(self.source.make_grayscale(), self.highlight.make_grayscale())
-                    if result > 0.95: # 일치한다면
+                    if result > self.precision: # 일치한다면
                         end = self.frame_cnt
                         continue
                     else: # 일치하지 않는다면
@@ -109,11 +110,7 @@ class Highlight_finder:
 
         if self.highlight.cap.isOpened():
             self.highlight.cap.release()
-            
-        start_time = str(start // 30 // 3600) + ":" + str(start//30%3600//60) + ":" + str(start//30%60)
-        end_time = str(end // 30 // 3600) + ":" + str(end//30%3600//60) + ":" + str(end//30%60)
-        f.write(str(start) + "," + str(end)+", " + start_time + "," + end_time+"\n")
-        f.close()
+
         #cv2.destroyAllWindows()
         print("END")
         return
@@ -124,6 +121,11 @@ def main():
         return
     
     text_path = sys.argv[1]
+    try:
+        precision = int(sys.argv[2])
+    except:
+        precision = 0.95
+    
     
     with open(text_path, "r") as src:
         while(True):
@@ -133,7 +135,7 @@ def main():
             highlight_path = source_path + "_HL.mp4"
             source_path += ".mp4"
             print(source_path)
-            finder = Highlight_finder(source_path, highlight_path)
+            finder = Highlight_finder(source_path, highlight_path, precision)
             finder.load_video()
             finder.find_highlight()
 
