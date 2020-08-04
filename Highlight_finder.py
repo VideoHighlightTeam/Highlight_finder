@@ -71,8 +71,8 @@ class Highlight_finder:
                 result = maxVal
                 if(self.frame_cnt - end > 150):
                     if end != 0 and end - start >= 60:
-                        start_time = str(start // 29.97 // 3600) + ":" + str(start//29.97%3600//60) + ":" + str(start//29.97%60)
-                        end_time = str(end // 29.97 // 3600) + ":" + str(end//29.97%3600//60) + ":" + str(end//29.97%60)
+                        start_time = '%d:%d:%d' % (start // 29.97 // 3600, start//29.97%3600//60, start//29.97%60)
+                        end_time = '%d:%d:%d' % (end // 29.97 // 3600, end//29.97%3600//60 , end//29.97%60)
                         f.write(str(start) + "," + str(end)+", " + start_time + "," + end_time+"\n")
                     start = self.frame_cnt
                 while True: # 일치하지 않는 구간까지 반복
