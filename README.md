@@ -41,3 +41,20 @@ Output File: ./data/GameVideoName.txt
 ## For Jupyter Notebook
 - 실행 후 '텍스트 파일 이름'을 입력하면 다운로드가 시작됩니다.
 
+-----------------------------------------------------------------------------
+
+## time_fix.py Usage
+```
+$ python time_fix.py file_name.txt 
+```
+- file_name.txt : url, 저장할 이름이 저장된 txt파일. 
+바꾸지 않을 부분은 여기서 빼시면 됩니다.
+
+## txt file format
+url1,save_file_name1
+url2,save_file_name2
+...
+
+./data 폴더에 있는 txt 파일의 시간값만 수정하게 됩니다.
+data 폴더에 해당하는 텍스트 파일이 있어야합니다.
+
